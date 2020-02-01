@@ -1,0 +1,24 @@
+<!--Kevin Sutton-->
+@CHARSET "UTF-8";
+
+.button {
+	margin: 3px;
+}
+
+table {
+	border-collapse: collapse;
+	border: solid;
+	border-color: black;
+	margin: 5px;
+}
+td,th{
+	border: sold;
+	border-color: black;
+	border-width: 2px;
+	padding: 7px;
+	margin: 2px;	
+}
+tr:nth-child(odd) {
+	background: lightgray;
+	border-color: black;
+	} 

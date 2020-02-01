@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Event Driven JS</title>
+<link href="styles.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<header> Using Javascript to Change the HTML </header> 
+<div>
+<button type="button" onclick="setFrameTo(0)"> 0) Calculator </button> <br>
+<button type="button" onclick="setFrameTo(1)"> 1) Hide / Show </button> <br>
+<button type="button" onclick="setFrameTo(2)"> 2) Change 7 Styles </button> <br>
+<button type="button" onclick="setFrameTo(3)"> 3) Move Text </button> <br>
+<button type="button" onclick="setFrameTo(4)"> 4) Add to Array </button> <br>
+<button type="button" onclick="setFrameTo(5)"> 5) Over Out </button> <br>
+<button type="button" onclick="setFrameTo(6)"> 6) Growing Image </button> <br>
+<button type="button" onclick="setFrameTo(7)"> 7) Pixel Increase </button> <br>
+<button type="button" onclick="setFrameTo(8)"> 8) Running Sum </button> <br>
+<button type="button" onclick="setFrameTo(9)"> 9) Stack </button> <br>
+</div>
+<div>
+<!-- Set the src of the default html page -->
+<iframe id="section" src="intro.html" width="500" height="500"></iframe>
+</div>
+
+<script>
+var page = [];
+page[0] = "calculator.html";
+page[1] = "1HideShow.html";
+page[2] = "Change7Styles.html"
+page[3] = "MoveText.html"
+page[4] = "AddToArray.html";
+page[5] = "OverOut.html";
+page[6] = "GrowingImage.html";
+page[7] = "PixelIncrease.html";
+page[8] = "RunningSum.html";
+page[9] = "Stack.html";
+function setFrameTo(number) {
+    // Get a reference to the iframe sp we can change src
+	var frame = document.getElementById("section");
+	frame.src = page[number];
+}
+</script>
+<footer>
+Matthew Yungbluth
+</footer>
+</body>
+</html>

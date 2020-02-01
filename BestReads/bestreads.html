@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<!-- CSC 337: Assignment BestReads -->
+<!-- By: Matthew Yungbluth -->
+<head>
+<link rel="stylesheet" type="text/css" href="bestreads.css" />
+<title>Best Reads</title>
+</head>
+<body onload="showAll()">
+
+<div id="header">
+<div>
+  <span>bestreads</span>
+</div>
+  <span id="back" onclick="showAll()">home</span>
+</div>
+<div id="books"></div>
+<script>
+function showAll() {
+   var ajax = new XMLHttpRequest();
+   ajax.open("GET", "bestreads.php", true);
+   ajax.send();
+   ajax.onreadystatechange = function() {
+	   if (ajax.readyState == 4 && ajax.status == 200) {
+		   var str = "";
+		   var booklist = JSON.parse(ajax.responseText);
+		   for (var i = 0; i < booklist.length; i++) {
+			   str += "<img src=" + booklist[i] + "/cover.jpg class=onebook onclick=showBook('" + booklist[i] + "')>";
+		   }
+		   document.getElementById("books").innerHTML = str;
+	   }
+   }
+}
+
+function showBook(name) {
+	var str = "<div class=onereview><img src=" + name + "/cover.jpg>";
+	var finish = 3;
+	var info = new XMLHttpRequest();
+	info.open("GET", name + "/info.txt", true);
+	info.send();
+	info.onreadystatechange = function() {
+		if (info.readyState == 4 && info.status == 200) {
+			var infotext = info.responseText.split("\n");
+			str += "<div class=thedetails><b>" + infotext[0] + "</b><br>";
+			str += infotext[1] + "<br><br>";
+			--finish;
+		}
+	}
+	var desc = new XMLHttpRequest();
+	desc.open("GET", name + "/description.txt", true);
+	desc.send();
+	desc.onreadystatechange = function() {
+		if (desc.readyState == 4 && desc.status == 200) {
+			str += desc.responseText + "<br><br>";
+			--finish;
+		}
+	}
+	var review = new XMLHttpRequest();
+	review.open("GET", name + "/review.txt", true);
+	review.send();
+	review.onreadystatechange = function() {
+		if (review.readyState == 4 && review.status == 200) {
+			var reviewtext = review.responseText.split("\n");
+			var starsNum = parseInt(reviewtext[1]);
+			str += "<b>" + reviewtext[0] + " ";
+			for (i = 0; i < starsNum; i++) {
+				str += "*";
+			}
+			str += "</b><br>" + reviewtext[2] + "</div></div>";
+			--finish;
+			if (finish == 0) {
+				document.getElementById("books").innerHTML = str;
+			}
+		}
+	}
+}
+</script>
+
+</body>
+</html>

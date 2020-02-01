@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Pixel Increase</title>
+</head>
+<body>
+<button id="incBut" type="button" onclick="incer()">Increment by 1px</button>
+<div id=incDiv>
+Increase my point size by 1px each click.
+</div>
+<script>
+var divInc = document.getElementById("incDiv");
+function incer() {
+	var fontsize = window.getComputedStyle(divInc, null).getPropertyValue('font-size');
+	var thisSize = parseFloat(fontsize);
+	divInc.style.fontSize = (thisSize + 1) + "px";
+}
+</script>
+</body>
+</html>

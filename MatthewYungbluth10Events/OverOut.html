@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Over Out</title>
+<style>
+div {
+	border: solid red;
+	background-color: pink;
+	text-align: center;
+	width: 200px;
+	padding: 5px;
+}
+</style>
+</head>
+<body>
+<div onmouseover="hovered()" onmouseout="exited()">
+Hover over Me
+</div>
+<br>
+<br>
+<div id="outputDiv">
+</div>
+<script>
+var changed = 0;
+var outputBox = document.getElementById("outputDiv");
+function hovered() {
+	changed += 1;
+	outputBox.innerHTML = "Entered " + changed + " events";
+}
+function exited() {
+	changed += 1;
+	outputBox.innerHTML = "Exited " + changed + " events";
+}
+</script>
+</body>
+</html>

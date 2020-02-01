@@ -1,0 +1,92 @@
+<!-- Kevin Sutton -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<h3>Search for actors, roles, movies in the database imdb_small</h3>
+<br>
+<br>
+<h5>Search string</h5><br>
+<input type="text" id = "input" name = "string"> <br><br>
+<input type="button" name = "actors" value = "Actors" class = "button" onclick="findActors()">
+<input type = "button" name = "movies" value = "Movies" class = "button" onclick="findMovies()">
+<input type = "button" name = "roles" value = "Roles" class = "button" onclick= "findRoles()">
+<div id = "divToChange"></div>
+</body>
+<script>
+function findActors(){
+	var string = document.getElementById("input").value;
+	var ajax = new XMLHttpRequest();
+	ajax.open("GET", "controller.php?type=actors&string=" + string, true);
+	ajax.send();
+	ajax.onreadystatechange = function(){
+		if(ajax.readyState == 4 && ajax.status == 200)
+			if(ajax.readyState == 4 && ajax.status == 200){
+				var array = JSON.parse(ajax.responseText);
+				str = "<table>";
+				for (var i = 0; i < array.length; i++){
+					str += "<tr>";
+					str += "<td>" + array[i]['first_name'] +" "+ array[i]['last_name'] + "</td>";
+					str += "</tr>";
+				}
+			str += "</table>";
+			document.getElementById("divToChange").innerHTML ="<h3> Actors </h3><br>" + str
+			}
+			}
+
+	}
+	
+ 
+function findRoles(){
+	var string = document.getElementById("input").value;
+	var ajax = new XMLHttpRequest();
+	ajax.open("GET", "controller.php?type=roles&string=" + string, true);
+	ajax.send();
+	ajax.onreadystatechange = function(){
+		if(ajax.readyState == 4 && ajax.status == 200)
+			if(ajax.readyState == 4 && ajax.status == 200){
+				var array = JSON.parse(ajax.responseText);
+				str = "<table>";
+				for (var i = 0; i < array.length; i++){
+					str += "<tr>";
+					str += "<td>" + array[i]['role']+ "</td>";
+					str += "</tr>";
+				}
+			str += "</table>";
+			document.getElementById("divToChange").innerHTML ="<h3> Roles </h3><br>" + str
+			}
+			}
+
+	}
+	
+ 
+function findMovies(){
+	var string = document.getElementById("input").value;
+	var ajax = new XMLHttpRequest();
+	ajax.open("GET", "controller.php?type=movies&string=" + string, true);
+	ajax.send();
+	ajax.onreadystatechange = function(){
+		if(ajax.readyState == 4 && ajax.status == 200){
+			var array = JSON.parse(ajax.responseText);
+			str = "<table>";
+			for (var i = 0; i < array.length; i++){
+				str += "<tr>";
+				str += "<td>" + array[i]['name']+ "</td>";
+				str += "</tr>";
+			}
+		str += "</table>";
+		document.getElementById("divToChange").innerHTML = "<h3> Movies </h3><br>" + str
+		}
+		}
+			
+
+	}
+	
+ 
+
+</script>
+</html>

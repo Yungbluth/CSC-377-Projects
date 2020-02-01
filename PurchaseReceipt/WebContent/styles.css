@@ -1,0 +1,19 @@
+@charset "ISO-8859-1";
+
+form {
+	background-color: LightBlue;
+	border-style: ridge;
+	padding: 10px;
+	width: 300px;
+	border-width: 10px;
+}
+
+.receipt {
+	display: none;
+	background-color: pink;
+	border-color: Red;
+	border-style: ridge;
+	padding: 10px;
+	width: 300px;
+	border-width: 10px;
+}

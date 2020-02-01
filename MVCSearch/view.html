@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<Title>Purchase Form</Title>
+<meta charset="UTF-8">
+<link href="styles.css" type="text/css" rel="stylesheet" />
+<!-- By: Matthew Yungbluth -->
+</head>
+<body>
+<h2>Search for actors, roles, movies in the database imdb_small</h2>
+<br>
+Search string <br>
+<input type="text" name="searchstr" value="" id="searchstr"> <br> <br>
+<button type="submit" id="Act" name="But" value="Actors" onclick="test('Actors')">Actors</button>
+<button type="submit" id="Mov" name="But" value="Movies" onclick="test('Movies')">Movies</button>
+<button type="submit" id="Rol" name="But" value="Roles" onclick="test('Roles')">Roles</button>
+<br><br>
+<div id="testeroni"></div>
+<script>
+function test(type){
+	var searchstr = document.getElementById("searchstr").value;
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr=" + searchstr + "&But=" + type, true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+			   if (array.length == 0) {
+				   document.getElementById("testeroni").innerHTML = "No matches for " + searchstr;
+			   } else {
+				   str = "<table>";
+				   for (var i = 0; i < array.length; i++) {
+				   str += "<tr>";
+				   if (type == "Actors"){
+				   		str += "<td>" + array[i]['first_name'] + " " + array[i]['last_name'] + "</td>";
+				   } else if (type == "Movies") {
+					   str += "<td>" + array[i]['name'] + "</td>";
+				   } else if (type == "Roles") {
+					   str += "<td>" + array[i]['role'] + "</td>";
+				   }
+				   str += "</tr>";
+				   }
+				   str += "</table>";
+				   document.getElementById("testeroni").innerHTML = str;
+			   }
+		   }
+	   }
+}
+</script>
+</body>
+</html>

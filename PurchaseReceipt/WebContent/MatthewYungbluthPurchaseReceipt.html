@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Purchase Receipt</title>
+<!-- By: Matthew Yungbluth -->
+<link href="styles.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<form action="javascript:submit();">
+First Name<input type="text" id="first" name="first" class="input" value="" pattern="[A-Z a-z]*" required><br>
+Last Name<input type="text" id="last" name="last" class="input" value="" pattern="[A-Z a-z]*" required><br>
+Phone<input type="text" id="phone" name="phone" class="input" value="" pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$" required><br>
+City<input type="text" id="city" name="city" class="input" value="" pattern="[A-Z a-z]*" required><br>
+State
+<select name="states" id="statesId">
+	<option value="Arizona">Arizona</option>
+	<option value="Missouri">Missouri</option>
+	<option value="Florida">Florida</option>
+	<option value="Maine">Maine</option>
+</select> <br>
+Zip<input type="text" id="zip" name="zip" value="" pattern="[0-9]{5}" required><br>
+<fieldset>
+<legend>Size</legend>
+<input type="radio" name="same" value="small" required>Small $2.00<br>
+<input type="radio" name="same" value="medium" required>Medium $2.65<br>
+<input type="radio" name="same" value="large" required>Large $2.99<br>
+</fieldset>
+Quantity (1..5)<input type="number" id="quantity" name="quantity" value="" required><br>
+<input class="submitButton" type="submit" value= "Submit">
+</form>
+<br>
+<div class="receipt" id="receipt"></div>
+<script>
+var receiptDiv = document.getElementById("receipt");
+function submit() {
+	receiptDiv.style.display = "block";
+	var firstName = document.getElementById("first");
+	var lastName = document.getElementById("last");
+	var phone = document.getElementById("phone");
+	var city = document.getElementById("city");
+	var stateSelect = document.getElementById("statesId");
+	var zip = document.getElementById("zip");
+	var sizeSelect = document.getElementsByName("same");
+	var quantity = document.getElementById("quantity");
+	var curDate = new Date();
+	var money;
+	var receipt = "<h3>Receipt</h3><br>Purchase Date: " + curDate.getDate() + "-" + (curDate.getMonth()+1) + "-" + curDate.getFullYear();
+	var length = sizeSelect.length;
+	var size;
+	for (var i = 0; i < length; i++) {
+		if (sizeSelect[i].checked) {
+			size = sizeSelect[i].value;
+	 	break;
+		}
+	}
+	if (size == "small") {
+		money = 2;
+	} else if (size=="medium") {
+		money = 2.65;
+	} else if (size=="large") {
+		money = 2.99;
+	}
+	receipt += "<br>Purchased " + quantity.value + " " + size + " item(s)<br>Total Cost $" + (money*(quantity.value)).toFixed(2) + "<br>";
+	receipt += "<fieldset><legend>Ship to</legend>" + firstName.value + " " + lastName.value + "<br>" + city.value + ", " + stateSelect.value + "<br>" + zip.value;
+	receiptDiv.innerHTML = receipt;	
+}
+</script>
+</body>
+</html>

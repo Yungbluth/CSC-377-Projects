@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Growing Image</title>
+</head>
+<body>
+Click on the image to see it grow.
+<br>
+<img src="Gordon_Ramsay.jpg" id="Gordon" height="100px" width="70px" onclick="growth()">
+<script>
+imgEle = document.getElementById("Gordon");
+function growth() {
+	imgEle.height += 10;
+	imgEle.width += 7;
+}
+</script>
+</body>
+</html>

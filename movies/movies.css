@@ -1,0 +1,144 @@
+@charset "utf-8";
+
+/* By: Matthew Yungbluth */
+
+body {
+	background-image: url("images/moviebg.png");
+}
+
+.header {
+	/*	Set the background image and tell the browser to have the header fill left to right  */
+	background-image: url("images/rottenlargebg.png");
+	width: 100%;
+	height: 83px;
+}
+
+.vertbase {
+	vertical-align: baseline;
+}
+
+.yearHead {
+	font-family: Georgia, serif;
+	font-size: 24pt;
+	text-shadow: 3px 3px dimgray;
+	text-align: center;
+}
+
+img.headericon {
+	float: left;
+	margin-right: 5px;
+}
+
+.main {
+	margin: auto;
+	border: 2px transparent;
+	overflow: hidden;
+	width: 800px;
+	height: 960px;  /* was 960 */
+	border-radius: 25px;
+	overflow: hidden;
+	box-shadow: 10px 10px 5px gray;
+	background-color: darkseagreen;
+}
+
+.rating {
+	min-width: 550px;
+	height: 82px;
+	float: left;
+}
+
+.percent {
+	color: red;
+	font-size: 48pt;
+	font-weight: bold;
+	font-family: sans-serif;
+	position: relative;
+	vertical-align: top;
+	padding: 0px 0.5em;
+}
+
+.top {
+	vertical-align: text-top;
+}
+
+.image {
+	float: right;
+	position: relative;
+	bottom: 81px;
+}
+
+.reviews {
+	/* for overview text */
+	font-size: 10pt;
+	width: 275px;
+	height: 900px;  /* was 940 */
+	float: left;
+	background: lightgray;
+}
+
+.overview {
+	/* for overview text */
+	font-size: 9pt;
+	width: 250px;
+	height: 900px;  /* was 960 */
+	float: right;
+	position: relative;
+	bottom: 90px;
+}
+
+dt {
+	font-family: arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	padding-top: 6px;
+	padding-left: 12px;
+}
+
+dd {
+	font-family: arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	padding-right: 12px;
+}
+
+
+.white {
+	background-color: white;
+	border-radius: 20px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: darkgray;
+	padding: 8px;
+	width: 235px;
+	max-width: 300px;
+	min-height: 25px;
+	font-size: 10pt;
+	font-family: Georgia, Times New Roman;
+	margin: 5px;
+	clear: left;
+}
+
+.float-left {
+	float: left;
+	margin: 2px;
+}
+
+.author {
+	float: left;
+	margin-left: 6px;
+	position: relative;
+	vertical-align: top;
+	font-size: 9pt;
+	font-family: serif;
+	margin-top: -1px;
+	margin-bottom: 18px;
+}
+
+.bottom {
+	margin-top: 12px;
+	text-align: center;
+}
+
+.margintop{
+	position:relative;
+	bottom: 20px;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>First Form</title>
+<!-- By: Matthew Yungbluth -->
+<link href="styles.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<form action="javascript:submit();">
+Insides
+<select name="insides" id="insidesId">
+	<option value="Veggie">Veggie</option>
+	<option value="Tuna">Tuna</option>
+	<option value="Turkey">Turkey</option>
+</select>
+<br>
+Bread <br>
+<input type="radio" name="same" value="Submarine Roll">Submarine Roll<br>
+<input type="radio" name="same" value="Wheat">Wheat<br>
+<input type="radio" name="same" value="Rye">Rye<br>
+<input type="submit" value= "Submit">
+</form>
+<hr>
+<div id="order"></div>
+<script>
+var orderDiv = document.getElementById("order");
+
+function submit() {
+	var insideSelect = document.getElementById("insidesId");
+	var breadSelect = document.getElementsByName("same");
+	var bread;
+	var length = breadSelect.length;
+	for (var i = 0; i < length; i++) {
+		if (breadSelect[i].checked) {
+			bread = breadSelect[i].value;
+	 	break;
+		}
+	}
+	orderDiv.innerHTML = "<b>You ordered " + insideSelect.value + " on " + bread + "</b>";
+}
+</script>
+</body>
+</html>

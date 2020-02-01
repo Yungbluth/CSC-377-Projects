@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Calculator by Matthew Yungbluth</title>
+<!-- By: Matthew Yungbluth -->
+</head>
+<body>
+<h4>Calculator</h4>
+x <input type="text" id="xval">
+<p>
+y <input type="text" id="yval">
+<p>
+<button onclick="mathOps();">Show results</button>
+<div id='outputdiv'>
+</div>
+</body>
+<script>
+function mathOps() {
+	var x = Number(document.getElementById('xval').value);
+	var y = Number(document.getElementById('yval').value);
+	var divtochange = document.getElementById('outputdiv');
+	divtochange.innerHTML = (x + " + " + y + " = " + y+x + "<br>" +
+	x + " - " + y + " = " + (y-x) + "<br>" +
+	x + " * " + y + " = " + y*x + "<br>" +
+	x + " / " + y + " = " + y/x + "<br>" +
+	x + " % " + y + " = " + y%x);
+}</script>
+</html>

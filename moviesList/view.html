@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<Title>Purchase Form</Title>
+<meta charset="UTF-8">
+<link href="styles.css" type="text/css" rel="stylesheet" />
+<!-- By: Matthew Yungbluth and Kevin Sutton-->
+</head>
+<body>
+<div id="topSelect">
+<button name=test class="topButs" onclick="allMovies()">All Movies</button>
+<button name=test class="topButs" onclick="movieSearch()">Movie Search</button>
+<button name=test class="topButs" onclick="favs()">Favorites</button>
+<button name=test class="topButs" onclick="logIn()">Log In</button>
+<button name=test class="topButs" onclick="register()">Register</button>
+<button name=test class="topButs" onclick="cart()">Shopping Cart</button>
+</div>
+<br> <br> <br>
+<div id="inputDiv"></div>
+<div id="outputDiv"></div>
+<script>
+var curCart = [];
+function cart() {
+	document.getElementById("outputDiv").innerHTML = curCart;
+}
+function register() {
+	document.getElementById("outputDiv").innerHTML = "";
+	var input = document.getElementById("inputDiv").innerHTML = "<h2>Register</h2>" + 
+	"User Name <input type='text' name='user' value='' id='user'><br>" + 
+	"Password <input type='text' name='pass' value='' id='pass'><br>" +
+	"First Name <input type='text' name='first' value='' id='first'><br>" +
+	"Last Name <input type='text' name='last' value='' id='last'><br>" +
+	"Address <input type='text' name='address' value='' id='address'><br>" +
+	"<button onclick='registerTwo()'>Register</button>";
+}
+function registerTwo() {
+	var outputDiv = document.getElementById("outputDiv");
+	var user = document.getElementById("user").value;
+	var pass = document.getElementById("pass").value;
+	var first = document.getElementById("first").value;
+	var last = document.getElementById("last").value;
+	var address = document.getElementById("address").value;
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr= &But=Register&user=" + user + "&pass=" + pass + "&first=" + first +
+			   "&last=" + last + "&address=" + address, true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   document.getElementById("inputDiv").innerHTML = JSON.parse(ajax.responseText)[0];
+		   }
+	   }
+}
+function logIn() {
+	document.getElementById("outputDiv").innerHTML = "";
+	var input = document.getElementById("inputDiv").innerHTML = "<h2>Log In</h2>" + 
+	"User Name <input type='text' name='user' value='' id='user'><br>" + 
+	"Password <input type='text' name='pass' value='' id='pass'><br>" +
+	"<button onclick='logInTwo()'>Log In</button>";
+}
+function logInTwo() {
+	var outputDiv = document.getElementById("outputDiv");
+	outputDiv.innerHTML = "";
+	var str = "";
+	var user = document.getElementById("user").value;
+	var pass = document.getElementById("pass").value;
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr= &But=logIn&user=" + user + "&pass=" + pass + 
+			   "&first= &last= &address= ", true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+			   if (array.length == 0) {
+				   outputDiv.innerHTML = "Incorrect Username or Password";
+			   } else {
+				   str += "hi";
+				   /*
+		           str = "<table>";
+				   for (var i = 0; i < array.length; i++) {
+					   	str += "<tr>";
+					   	str += "<td>" + array[i]["first_name"] + " " + array[i]["last_name"] + "</td>";
+					   	str += "</tr>";
+				   }
+				   str += "</table>";
+				   */
+				   document.getElementById("outputDiv").innerHTML = str;
+			   }
+		   }
+	   }
+}
+function allMovies() {
+	document.getElementById("inputDiv").innerHTML = "";
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr= &But=All&user= &pass= &first= &last= &address= ", true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+	           str = "<table><br>";
+			   for (var i = 0; i < array.length; i++) {
+				var movie = array[i]["movie_name"];
+			   	str += "<tr>";
+			   	str += "<td>" + array[i]["movie_name"] + ", By: " + array[i]["director"] + "<button onclick=curCart.push('" + movie + "')>Add To Cart</button></td>";
+			   	str += "</tr>";
+			   }
+			   str += "</table>";
+			   document.getElementById("outputDiv").innerHTML = str;
+		   }
+	   }
+}
+function movieSearch() {
+	document.getElementById("outputDiv").innerHTML = "";
+	var toChange = document.getElementById("inputDiv");
+	toChange.innerHTML = '<input type="text" name="searchstr" value="" id="searchstr"> <br> <br>' + 
+	'<button type="submit" id="Name" name="But" value="Name" onclick="movieSearchTwo(\'Name\')">Name</button>' + 
+	'<button type="submit" id="Genre" name="But" value="Genre" onclick="movieSearchTwo(\'Genre\')">Genre</button>' +
+	'<button type="submit" id="Director" name="But" value="Director" onclick="movieSearchTwo(\'Director\')">Director</button>';
+	
+}
+function movieSearchTwo(type){
+	var outputDiv = document.getElementById("outputDiv");
+	outputDiv.innerHTML = "";
+	var searchstr = document.getElementById("searchstr").value;
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr=" + searchstr + "&But=" + type + 
+			   "&user= &pass= &first= &last= &address= ", true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+			   if (array.length == 0) {
+				   outputDiv.innerHTML = "No matches for " + searchstr;
+			   } else {
+				   var str = "<table>";
+				   for (var i = 0; i < array.length; i++) {
+				   str += "<tr>";
+				   if (type == "Name"){
+				   		str += "<td>" + array[i]['movie_name'] + "</td>";
+				   } else if (type == "Genre") {
+					   str += "<td>" + array[i]['genre'] + "</td>";
+				   } else if (type == "Director") {
+					   str += "<td>" + array[i]['director'] + "</td>";
+				   }
+				   str += "</tr>";
+				   }
+				   str += "</table>";
+				   outputDiv.innerHTML = str;
+			   }
+		   }
+	   }
+}
+</script>
+</body>
+</html>

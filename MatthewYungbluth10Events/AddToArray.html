@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Add To Array</title>
+</head>
+<body>
+<div>
+Enter a name:
+<input type="text" id="inputBox" value="" onsubmit="appendList(value)"">
+</div>
+<br>
+The array of names:
+<br>
+<div id=listDiv></div>
+<script>
+var names = [];
+var inputBox = document.getElementById("inputBox");
+var textEle = document.getElementById("listDiv");
+inputBox.addEventListener("keyup", function(event) {
+	if (event.keyCode == 13) {
+		appendList(inputBox.value);
+	}
+});
+function appendList(newName){
+	inputBox.value = "";
+	var fullList = ""
+	names.push(newName)
+	for (var i = 0; i < names.length; i++) {
+		fullList += "" + (i+1) + ": " + names[i] + "<br>";
+	}
+	textEle.innerHTML = fullList;
+	
+}
+</script>
+
+</body>
+</html>

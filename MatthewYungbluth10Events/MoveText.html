@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Move Text</title>
+</head>
+<body>
+<div>
+<input type="text" id="leftSide" value="">
+<button id="moveBut" type="button" onclick="mover()">>> Move left to right >></button>
+<input type="text" id="rightSide" value="">
+</div>
+<script>
+var leftBox = document.getElementById("leftSide");
+var rightBox = document.getElementById("rightSide");
+function mover() {
+	var textLeft = leftBox.value;
+	rightBox.value = textLeft;
+	leftBox.value = "";
+}
+</script>
+</body>
+</html>

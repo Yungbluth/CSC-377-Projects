@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Stack</title>
+</head>
+<body>
+Push
+<input type="text" id="pushBox" value="">
+<button id="popBut" type="button" onclick="popper()">Pop</button>
+<div>
+<ul id=ulDisplay></ul>
+</div>
+<script>
+var listEles = [];
+var pushed = document.getElementById("pushBox");
+var ulEle = document.getElementById("ulDisplay");
+pushed.addEventListener("keyup", function(event) {
+	if (event.keyCode == 13) {
+		pusher(pushed.value);
+	}
+});
+function pusher(toPush) {
+	pushed.value = "";
+	listEles.push(toPush);
+	display()
+}
+function popper() {
+	listEles.shift();
+	display()
+}
+function display() {
+	while (ulEle.firstChild) {
+		ulEle.removeChild(ulEle.firstChild);
+	}
+	for (var i = 0; i < listEles.length; i++) {
+		var liEle = document.createElement("li");
+		liEle.appendChild(document.createTextNode(listEles[i]));
+		ulEle.appendChild(liEle);
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Matthew Yungbluth</title>
+</head>
+<body>
+<script>
+
+/**
+ * Complete both JavaScript functions requiring ifs 
+ * in one and a for loop in the other
+ * 
+ * Programmer: Matthew Yungbluth
+ * 
+ */
+// 1) minOfThree
+//
+// Given three arguments of the same type, return the 
+// one that is less than or equal to the other two.
+//
+// minOfThree(1, 2, 3) returns 1
+// minOfThree('three', 'two', 'one') returns one
+// minOfThree(5.23, 5.23, 5.23) returns 5.23
+//
+function minOfThree(a, b, c) {
+	if (a <= b && a <= c) {
+		return a
+	} else if (b <= a && b <= c) {
+		return b
+	} else
+		return c
+}
+
+/////////////////////////////////////////////////
+
+// 2) factorial
+//
+// Given an integer n, return n!
+// factorial(0) returns 1
+// factorial(1) returns 1
+// factorial(2) returns 2 * 1
+// factorial(3) returns 3 * 2 * 1
+// factorial(4) returns 4 * 3 * 2 * 1
+// Precondition: n >= 0 and is an integer
+function factorial(n) {
+    if (n <= 1){
+    	return 1
+    } else {
+    	return n * factorial(n-1)
+    }
+}
+
+document.write("At the start, all of the following write statements will " +
+        " will write false. When you see all trues, you are done.<br><br>");
+
+
+document.write(3 == minOfThree(3, 3, 5));
+document.write("<br>");
+document.write(3 == minOfThree(3, 5, 3));
+document.write("<br>");
+document.write(3 == minOfThree(5, 3, 3));
+document.write("<br>");
+document.write(-1 == minOfThree(-1, -1, -1));
+document.write("<br>");
+document.write(-12.5 == minOfThree(12.3, 67.8, -12.5));
+document.write("<br>");
+document.write(-12.3 == minOfThree(-12.3, -12.3, -12.3));
+document.write("<br>");
+document.write('able' == minOfThree('charlie', 'baker', 'able'));
+document.write("<br>");
+document.write('able' == minOfThree('charlie', 'able', 'able'));
+document.write("<br>");
+document.write('able' == minOfThree('able', 'baker', 'able'));
+document.write("<br>");
+document.write('able' == minOfThree('charlie', 'able', 'able'));
+document.write("<br>");
+document.write("<br>");
+
+
+document.write(1 == factorial ( 0 )); 
+document.write("<br>");
+document.write(1 == factorial ( 1 )); 
+document.write("<br>");
+document.write(2 == factorial ( 2 )); 
+document.write("<br>");
+document.write(6 == factorial ( 3 )); 
+document.write("<br>");
+document.write(24 == factorial ( 4 )); 
+</script>
+
+</body>
+</html>

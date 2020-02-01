@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!-- Rick Mercer -->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hide / Show</title>
+</head>
+<body>
+
+<button id="hsButton" type="button" onclick="hideShow()">Hide</button>
+<div id="hideShow">
+<br /> This text will appear and disappear.
+</div>
+
+<script>
+var textEle = document.getElementById("hideShow");
+var butEle = document.getElementById("hsButton");
+var vis = true;
+function hideShow() {
+	if (vis == true) {
+		textEle.style.display = "none";
+		butEle.innerHTML = "Show";
+		vis = false;
+	}
+	else {
+		textEle.style.display = "block";
+		butEle.innerHTML = "Hide";
+		vis = true;
+	}
+}
+</script>
+</body>
+</html>

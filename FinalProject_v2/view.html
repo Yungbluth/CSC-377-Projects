@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<Title>Notflix</Title>
+<meta charset="UTF-8">
+<link href="styles.css" type="text/css" rel="stylesheet" />
+<!-- By: Matthew Yungbluth and Kevin Sutton-->
+</head>
+<body onload="showAll()">
+<div class ='center'><img class ='center' src = ./images/netflix_logo.png></div><br>
+<div class = 'center' id = 'topSelect'>
+<button name=test class="topButs" onclick="showAll()"><b>All Movies</b></button>
+<button name=test class="topButs" onclick="movieSearch()"><b>Movie Search</b></button>
+<button name=test class="topButs" onclick="logIn()"><b>Log In</b></button>
+<button name=test class="topButs" onclick="register()"><b>Register</b></button>
+</div>
+<br>
+
+<div id="inputDiv" class='center'></div>
+<div id="outputDiv" class='center'></div>
+<div id="cartDiv"></div>
+<script>
+var loggedIn = 0;
+var loggedInUser = "";
+var shopCart = [];
+var pastOrder = [];
+function showAll() {
+   var ajax = new XMLHttpRequest();
+   ajax.open("GET","allmovies.php", true);
+   ajax.send();
+   ajax.onreadystatechange = function () {
+	   if (ajax.readyState == 4 && ajax.status == 200) {
+		   var movieCovers = JSON.parse(ajax.responseText);
+		   var str = ""
+		   for(index = 0; index < movieCovers.length; index++){
+			   var movieName = movieCovers[index].substring(9);
+			   movieName = movieName.substring(0, movieName.length-4);
+			   str += "<img class = 'onemovie' src = " + movieCovers[index] + " onclick=movieInfo(\"" + movieName + "\")>" ;   
+		   }
+		   document.getElementById("inputDiv").innerHTML = str;
+		   document.getElementById("outputDiv").innerHTML = '';
+	   }
+   }
+}
+function movieInfo(name) {
+	var str = "";
+	var outputDiv = document.getElementById("outputDiv").innerHTML = "";
+	var info = new XMLHttpRequest();
+	info.open("GET", "./movieInfo/" + name + ".txt", true);
+	info.send();
+	info.onreadystatechange = function() {
+		if (info.readyState == 4 && info.status == 200) {
+			var infotext = info.responseText.split("\n");
+			str += "<div class=infotext><b><h2>" + infotext[0] + "</h2></b><br>";
+			str += infotext[2] + "<img class = 'infoposter' src = ./movies/" + name + ".jpg>";
+			if (loggedIn == 1) {
+				str += "<p><button id = 'addcart' class = addcart onclick=addShoppingCart(\"" + name + "\")>Add this movie to shopping cart</button></p>";
+			}
+			inputDiv.innerHTML = str;
+		}
+	}
+}
+function addShoppingCart(name) {
+	shopCart.push(name);
+	document.getElementById("addcart").innerHTML = "Successfully Added to Cart!";
+}
+function shoppingCart() {
+	var count = 0
+	var input = document.getElementById("inputDiv");
+	document.getElementById("outputDiv").innerHTML = "";
+	str = "<div class = 'center'><h1 class=theDetails><b> Your Movies: </b></h1></div>"
+	str += "<div class= 'center'>";
+	for (var i = 0; i < shopCart.length; i++) {
+		str += "<img class = 'onemoviecart' src = ./movies/" + shopCart[i] + ".jpg>";
+		count += 1
+	}
+	var cost = count * 4.99;
+	str += "</div>";
+	str += "<form  class = 'purchase' onsubmit = 'purchaseCart()'>";
+	str += "<p>First Name <input class = 'inputBox' type='text' id='firstname' name='firstName' pattern='[A-Z a-z]*' required></p>";
+	str += "<p>Last Name <input class = 'inputBox' type='text'  id='lastname' name='lastName'pattern='[A-Z a-z]*' required></p>";
+	str += "<p>Address <input class = 'inputBox' type='text' id='address' name='address' required></p>";
+	str += "<p>Zip<input class = 'inputBox' type='text' id='zip' name='zip' pattern='[0-9]{5}' required></p>";
+	str += "<p>Payment Type<select id='payment' name ='payment' required><option selected>Credit Card</option><option>Paypal</option";
+	str += "<option>Check</option><option>Cash</option></select></p>";
+	str +=  "<p> Your total cost is: $" + cost; + "</p>"
+	str +=  "<p><input class = confirmButs type='submit'name ='confirmbutton' value ='Confirm Purchase'></p>";
+	input.innerHTML = str;
+}
+function purchaseCart() {
+	document.getElementById("outputDiv").innerHTML = "";
+	var firstname = document.getElementById("firstname").value;
+	var lastname = document.getElementById("lastname").value;
+	var add = document.getElementById("address").value;
+	var zip = document.getElementById("zip").value;
+	var str = "<form><fieldset><legend>Purchase Received</legend>Confirmed order for: " + firstname + " " + lastname + 
+	"<br>" + add + ", " + zip + "<br>Movies bought:";
+	for (var i = 0; i < shopCart.length; i++) {
+		str += "<br>" + shopCart[i];
+		pastOrder.push(shopCart[i]);
+	}
+	str += "</fieldset></form>";
+	document.getElementById("inputDiv").innerHTML = str;
+}
+function register() {
+	document.getElementById("outputDiv").innerHTML = "";
+	var input = document.getElementById("inputDiv").innerHTML = "<div class = 'center'><h2 class = 'login'>Register</h2>" + 
+	"<p class = 'login'>User Name <input class = 'inputBox' type='text' name='user' value='' id='user'><br></p>" + 
+	"<p class = 'login'>Password <input class = 'inputBox' type='text' name='pass' value='' id='pass'><br></p>" +
+	"<button class = searchButs onclick='registerTwo()'>Register</button></div>";
+}
+function registerTwo() {
+	var outputDiv = document.getElementById("outputDiv");
+	var user = document.getElementById("user").value;
+	var pass = document.getElementById("pass").value;
+	var ajax = new XMLHttpRequest();
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr= &But=registerCheck&user=" + user + "&pass=" + pass, true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+			   if (array.length > 0) {
+				   document.getElementById("outputDiv").innerHTML = "<div class=\"theDetails\">Already Taken</div>"
+			   } else {	   
+				   registerThree(user, pass);
+			   }
+			}
+		}
+}
+function registerThree(user, pass) {
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr= &But=Register&user=" + user + "&pass=" + pass, true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   document.getElementById("inputDiv").innerHTML = "<div class=theDetails>Successfully Registered!</div>";
+		   }
+	   }
+}
+function logIn() {
+	document.getElementById("outputDiv").innerHTML = "";
+	var input = document.getElementById("inputDiv").innerHTML = "<div class = 'center'><h2 class = 'login'>Log In</h2>" + 
+	"<p class = 'login'>User Name <input class = 'inputBox' type='text' name='user' value='' id='user'><br></p>" + 
+	"<p class = 'login'>Password <input class = 'inputBox' type='text' name='pass' value='' id='pass'><br></p>" +
+	"<button class = searchButs onclick='logInTwo()'>Log In</button></div>";
+}
+function logInTwo() {
+	var outputDiv = document.getElementById("outputDiv");
+	outputDiv.innerHTML = "";
+	var str = "";
+	var user = document.getElementById("user").value;
+	var pass = document.getElementById("pass").value;
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr= &But=logIn&user=" + user + "&pass=" + pass, true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+			   if (array.length == 0) {
+				   outputDiv.innerHTML = "<div class=theDetails>Incorrect Username or Password</div>";
+			   } else {
+				   loggedIn = 1;
+				   loggedInUser = user;
+				   document.getElementById("topSelect").innerHTML = "<button name=test class=\"topButs\" onclick=\"showAll()\"><b>All Movies</b></button>" + 
+				   "<button name=test class=\"topButs\" onclick=\"movieSearch()\"><b>Movie Search</b></button>" + 
+				   "<button name=test class=\"topButs\" onclick=\"logOut()\"><b>Log Out</b></button>" + 
+				   "<button name=test class=\"topButs\" onclick=\"shoppingCart()\"><b>Shopping Cart</b></button>" + 
+				   "<button name=test class=\"topButs\" onclick=\"myOrders()\"><b>My Orders</b></button>";
+				   showAll();
+			   }
+		   }
+	   }
+}
+function logOut() {
+	loggedIn = 0;
+	loggedInUser = "";
+	document.getElementById("topSelect").innerHTML = "<button name=test class=\"topButs\" onclick=\"showAll()\"><b>All Movies</b></button>" + 
+	   "<button name=test class=\"topButs\" onclick=\"movieSearch()\"><b>Movie Search</b></button>" + 
+	   "<button name=test class=\"topButs\" onclick=\"logIn()\"><b>Log In</b></button>" + 
+	   "<button name=test class=\"topButs\" onclick=\"register()\"><b>Register</b></button>";
+	shopCart = [];
+	showAll();
+}
+function myOrders(){
+	input = document.getElementById("inputDiv");
+	var str = "";
+	for (var i = 0; i < pastOrder.length; i++) {
+		str += "<br>" + pastOrder[i];
+	}
+	input.innerHTML = str;
+}
+function allMovies() {
+	document.getElementById("inputDiv").innerHTML = "";
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr= &But=All&user= &pass= ", true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+	           str = "<table>";
+			   for (var i = 0; i < array.length; i++) {
+			   	str += "<tr>";
+			   	str += "<td>" + array[i]["movie_name"] + ", By: " + array[i]["director"] + "</td>";
+			   	str += "</tr>";
+			   }
+			   str += "</table>";
+			   document.getElementById("outputDiv").innerHTML = str;
+		   }
+	   }
+}
+function movieSearch() {
+	document.getElementById("outputDiv").innerHTML = "";
+	var toChange = document.getElementById("inputDiv");
+	toChange.innerHTML = '<div class ="center"><h3 class = "login">Enter movie name, Genre, or Director (leave empty for entire list)</h4><br><input class = "inputBox" type="text" name="searchstr" value="" id="searchstr"> <br> <br>' + 
+	'<button class = searchButs type="submit" id="Name" name="But" value="Name" onclick="movieSearchTwo(\'Name\')">Name</button>' + 
+	'<button class = searchButs type="submit" id="Genre" name="But" value="Genre" onclick="movieSearchTwo(\'Genre\')">Genre</button>' +
+	'<button class = searchButs type="submit" id="Director" name="But" value="Director" onclick="movieSearchTwo(\'Director\')">Director</button></div>';
+	
+}
+function movieSearchTwo(type){
+	var outputDiv = document.getElementById("outputDiv");
+	var searchstr = document.getElementById("searchstr").value;
+	var ajax = new XMLHttpRequest();
+	   ajax.open("GET", "controller.php?searchstr=" + searchstr + "&But=" + type + 
+			   "&user= &pass= ", true);
+	   ajax.send();
+	   ajax.onreadystatechange = function() {
+		   if (ajax.readyState == 4 && ajax.status == 200) {
+			   array = JSON.parse(ajax.responseText);
+			   if (array.length == 0) {
+				   outputDiv.innerHTML = "<br><br><br><div class=theDetails>No matches for " + searchstr + "</div>";
+			   } else {
+				   var str = "<br><br><br><div class=theDetails><table class = 'center'>";
+				   for (var i = 0; i < array.length; i++) {
+				   str += "<tr>";
+				   if (type == "Name"){
+				   		str += "<td>" + array[i]['movie_name'] + "</td>";
+				   } else if (type == "Genre") {
+					   str += "<td>" + array[i]['genre'] + "</td>";
+				   } else if (type == "Director") {
+					   str += "<td>" + array[i]['director'] + "</td>";
+				   }
+				   str += "</tr>";
+				   }
+				   str += "</table></div>";
+				   outputDiv.innerHTML = str;
+			   }
+		   }
+	   }
+}
+
+</script>
+</body>
+</html>
