@@ -1,0 +1,7 @@
+Collaboratively created a mock movie retail front and backend using MVC architecture.
+
+Stores login details, allows the user to search for any movie that is available, and allows the user to purchase their desired
+movie sending a receipt.
+
+Involves communication between a MariaDB database hosted by XAMPP with a frontend using HTML, CSS, and
+JavaScript, all using a controller written in PHP to facilitate.
